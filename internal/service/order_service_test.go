@@ -136,6 +136,9 @@ func (m *MockCartRepository) ClearCart(ctx context.Context, cartID uint) error {
 
 func (m *MockCartRepository) GetCartItems(ctx context.Context, cartID uint) ([]domain.CartItem, error) {
 	args := m.Called(ctx, cartID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
 	return args.Get(0).([]domain.CartItem), args.Error(1)
 }
 
@@ -274,6 +277,9 @@ func (m *MockUserRepository) FindByRole(ctx context.Context, role string, page, 
 
 func (m *MockUserRepository) GetUserOrders(ctx context.Context, userID uint) ([]domain.Order, error) {
 	args := m.Called(ctx, userID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
 	return args.Get(0).([]domain.Order), args.Error(1)
 }
 
