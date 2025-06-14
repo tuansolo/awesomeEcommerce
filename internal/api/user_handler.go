@@ -1,3 +1,11 @@
+// Package api provides the HTTP handlers for the API
+// @title Awesome E-commerce API
+// @version 1.0
+// @description This is the API for the Awesome E-commerce application
+// @BasePath /api/v1
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 package api
 
 import (
@@ -49,6 +57,15 @@ func (h *UserHandler) RegisterRoutes(router *gin.RouterGroup) {
 }
 
 // Register handles user registration
+// @Summary Register a new user
+// @Description Register a new user with the provided information
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body object true "User registration information"
+// @Success 201 {object} object "User registered successfully"
+// @Failure 400 {object} object "Bad request"
+// @Router /users/register [post]
 func (h *UserHandler) Register(c *gin.Context) {
 	var request struct {
 		Email     string `json:"email" binding:"required,email"`
@@ -96,11 +113,29 @@ func (h *UserHandler) Register(c *gin.Context) {
 }
 
 // Login handles user login
+// @Summary Login a user
+// @Description Authenticate a user and return a JWT token
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param credentials body object true "User credentials"
+// @Success 200 {object} object "Login successful"
+// @Failure 401 {object} object "Unauthorized"
+// @Router /users/login [post]
 func (h *UserHandler) Login(c *gin.Context) {
 	middleware.LoginHandler(c, h.userService)
 }
 
 // GetProfile returns the profile of the authenticated user
+// @Summary Get user profile
+// @Description Get the profile of the authenticated user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} object "User profile"
+// @Failure 401 {object} object "Unauthorized"
+// @Router /users/me [get]
 func (h *UserHandler) GetProfile(c *gin.Context) {
 	userID, exists := c.Get("userID")
 	if !exists {

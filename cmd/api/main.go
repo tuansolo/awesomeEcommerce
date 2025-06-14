@@ -103,9 +103,10 @@ func main() {
 				}
 			},
 
-			// Set up API routes
+			// Set up API routes and Swagger
 			func(router *api.Router, engine *gin.Engine) {
 				router.SetupRoutes(engine)
+				router.SetupSwagger(engine)
 			},
 
 			// Start the HTTP server

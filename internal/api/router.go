@@ -1,10 +1,13 @@
 package api
 
 import (
+	_ "awesomeEcommerce/docs" // Import swagger docs
 	"awesomeEcommerce/internal/middleware"
 	"awesomeEcommerce/internal/service"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // Router sets up all the routes for the API
@@ -65,7 +68,8 @@ func (r *Router) SetupRoutes(engine *gin.Engine) {
 }
 
 // SetupSwagger sets up the Swagger documentation
-// This is a placeholder for future Swagger integration
+// This configures the Swagger UI endpoint at /swagger/index.html
 func (r *Router) SetupSwagger(engine *gin.Engine) {
-	// TODO: Implement Swagger documentation
+	// Use the ginSwagger middleware to serve the Swagger UI
+	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
