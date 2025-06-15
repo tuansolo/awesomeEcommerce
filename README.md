@@ -11,6 +11,8 @@ A modern e-commerce platform built with Go, featuring a microservices architectu
 - **Caching**: Redis
 - **Message Broker**: Kafka
 - **Dependency Injection**: Uber FX
+- **API Documentation**: Swagger
+- **Testing**: Testify
 - **Containerization**: Docker & Docker Compose
 
 ## Project Structure
@@ -46,7 +48,7 @@ awesomeEcommerce/
 ### Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/awesomeEcommerce.git
 cd awesomeEcommerce
 ```
 
@@ -137,7 +139,7 @@ docker-compose down -v
 
 ### Running Locally (Without Docker)
 
-1. Install Go 1.24 or later
+1. Install Go 1.20 or later (project uses Go 1.24 features, which may require using the development version)
 2. Install MySQL, Redis, and Kafka locally
 3. Set up environment variables (see docker-compose.yml for reference)
 4. Run the API service:
@@ -152,11 +154,86 @@ go run cmd/api/main.go
 go run cmd/worker/main.go
 ```
 
+### API Documentation
+
+The API is documented using Swagger. Once the application is running, you can access the Swagger UI at:
+
+```
+http://localhost:8080/swagger/index.html
+```
+
+This provides an interactive documentation where you can:
+- View all available endpoints
+- See request/response schemas
+- Test API endpoints directly from the browser
+
 ### Running Tests
+
+#### Unit Tests
+
+Run all unit tests with:
 
 ```bash
 go test ./...
 ```
+
+#### End-to-End Tests
+
+The project includes comprehensive end-to-end tests that verify the functionality of the entire system. These tests make HTTP requests to the API and check the side effects on the database, Redis cache, and Kafka message broker.
+
+To run the e2e tests:
+
+1. Start the test environment:
+```bash
+docker-compose -f docker-compose-test.yml up -d
+```
+
+2. Run the tests:
+```bash
+cd tests/e2e
+go test -v
+```
+
+3. Shut down the test environment when done:
+```bash
+docker-compose -f docker-compose-test.yml down
+```
+
+For more details on e2e tests, see [tests/e2e/README.md](tests/e2e/README.md).
+
+## Contributing
+
+Contributions to the Awesome E-commerce project are welcome! Here's how you can contribute:
+
+1. **Fork the repository**
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Make your changes**:
+   - Follow the existing code style
+   - Add tests for new functionality
+   - Update documentation as needed
+4. **Run tests**:
+   ```bash
+   go test ./...
+   ```
+5. **Commit your changes**:
+   ```bash
+   git commit -m "Add your meaningful commit message"
+   ```
+6. **Push to your branch**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+7. **Create a pull request**
+
+### Code Style Guidelines
+
+- Follow standard Go code conventions
+- Use meaningful variable and function names
+- Write comments for complex logic
+- Include unit tests for new functionality
 
 ## License
 
